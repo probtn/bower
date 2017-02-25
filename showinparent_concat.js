@@ -1,2 +1,62 @@
-/*! cdn.probtn 2016-05-04 18:05:34 */
-!function(){function a(a,b){var c=window.top.document.createElement("script");c.src=a,c.async=!0,c.onreadystatechange=c.onload=function(){var a=c.readyState;b.done||a&&!/loaded|complete/.test(a)||(b.done=!0,b())},window.top.document.getElementsByTagName("head")[0].appendChild(c)}function b(a){try{a=a.replace(/[\[]/,"\\[").replace(/[\]]/,"\\]");var b=new RegExp("[\\?&]"+a+"=([^&#]*)"),c=b.exec(location.search);return null===c?"":decodeURIComponent(c[1].replace(/\+/g," "))}catch(d){}}var c=(window.top.document.getElementsByTagName("HEAD").item(0),{});c.dfp={},c.dfp.isDFP=!0,c.dfp.clickUrlEsc=b("click_url_esc"),c.dfp.cacheBuster=b("cacheBuster");var d=b("domain");null!==d&&void 0!==d&&""!==d&&(c.domain=d);var e=b("SelectAdSet");null!==e&&void 0!==e&&""!==e&&(c.SelectAdSet=e);var f=window.top.document.createElement("div");f.id="probtn_additional_params",f.innerHTML=JSON.stringify(c),f.style.cssText="display: none;",window.top.document.body.appendChild(f);try{window.frameElement.style.cssText="display: none; border: 0px; width: 0px; height: 0px; margin: 0px; padding: 0px;"}catch(g){}a("//cdn.probtn.com/probtn_concat.js",function(){})}();
+(function () {
+
+var oHead = window.top.document.getElementsByTagName('HEAD').item(0);
+
+function loadJS(src, callback) {
+    var s = window.top.document.createElement('script');
+    s.src = src;
+    s.async = true;
+    s.onreadystatechange = s.onload = function () {
+        var state = s.readyState;
+        if (!callback.done && (!state || /loaded|complete/.test(state))) {
+            callback.done = true;
+            callback();
+        }
+    };
+    window.top.document.getElementsByTagName('head')[0].appendChild(s);
+}
+
+function getParameterByName(name) {
+	try {
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+        results = regex.exec(location.search);
+    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+	} catch(ex) {
+	}
+}
+
+var params = {};
+params.dfp = {};
+params.dfp.isDFP = true;
+params.dfp.clickUrlEsc = getParameterByName("click_url_esc");
+params.dfp.cacheBuster = getParameterByName("cacheBuster");
+var domain = getParameterByName("domain");
+if ((domain!==null) && (domain!==undefined) && (domain!=="")) {
+	params.domain = domain;
+}
+
+//selectAdSet param
+var SelectAdSet = getParameterByName("SelectAdSet");
+if ((SelectAdSet!==null) && (SelectAdSet!==undefined) && (SelectAdSet!=="")) {
+	params.SelectAdSet = SelectAdSet;
+}
+
+var paramsDiv = window.top.document.createElement('div');
+paramsDiv.id = "probtn_additional_params";
+paramsDiv.innerHTML = JSON.stringify(params);
+paramsDiv.style.cssText = "display: none;";
+window.top.document.body.appendChild(paramsDiv);
+
+try {
+	if ((window.frameElement!==null) && (window.frameElement!==undefined)) {
+		window.frameElement.style.cssText = "display: none; border: 0px; width: 0px; height: 0px; margin: 0px; padding: 0px;";
+	}
+} catch (ex) {
+}
+
+
+loadJS('//cdn.probtn.com/probtn_concat.js', function () {
+});
+
+})();
